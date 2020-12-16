@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  # talker:
+  #   image: osrf/ros:eloquent-desktop
+  #   command: ros2 run demo_nodes_cpp talker
+  # listener:
+  #   image: osrf/ros:eloquent-desktop
+  #   command: ros2 run demo_nodes_cpp listener
+  #   depends_on:
+  #     - talker
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/ros2_ws
+      - /ros2_ws/build/
+      - /ros2_ws/install/
+      - /ros2_ws/log/
