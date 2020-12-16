@@ -1,2 +1,8 @@
 ros2 run demo_nodes_cpp talker
 ros2 run demo_nodes_cpp listener
+
+ros2 pkg create my_py_pkg --build-type ament_python --dependencies rclpy
+
+ros2 pkg create my_cpp_pkg --build-type ament_cmake --dependencies rclcpp
+
+colcon build --packages-select my_py_pkg
