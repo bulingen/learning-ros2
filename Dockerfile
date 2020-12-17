@@ -16,7 +16,7 @@ WORKDIR /ros2_ws
 
 COPY . /ros2_ws/
 
-RUN colcon build
+RUN /bin/bash -c 'source /opt/ros/foxy/setup.bash; colcon build'
 
 RUN echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
 
