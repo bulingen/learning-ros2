@@ -58,8 +58,6 @@ ros2 run demo_nodes_cpp listener
 
 ## How to create a simple Python node
 
-- To make the Python file executable: `chmod +x the_python_file.py`. Then you can execute by just running `./ the_python_file.py`
-
 1. `docker-compose exec dev bash`
 1. `cd src`
 1. `ros2 pkg create my_py_pkg --build-type ament_python --dependencies rclpy`
