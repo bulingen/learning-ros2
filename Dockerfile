@@ -1,12 +1,5 @@
 FROM osrf/ros:foxy-desktop
 
-# USER root
-
-# apt-get install ros-groovy-console-bridge
-
-# RUN apt-get update -y
-# RUN apt-get install libconsole_bridge.so.1.0
-
 # to get all packages needed to run ros2
 RUN apt-get update -y && apt-get upgrade -y
 
