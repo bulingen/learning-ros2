@@ -82,7 +82,7 @@ ros2 run demo_nodes_cpp listener
        main()
    ```
 
-1. Make the file executable: `chmod +x the_python_file.py`. Then you can execute by running `./ the_python_file.py`
+1. Make the file executable: `chmod +x the_python_file.py`. Then you can execute by running `./the_python_file.py`
 1. Add your node to `src/my_py_pkg/setup.py`
    ```python
    entry_points={
