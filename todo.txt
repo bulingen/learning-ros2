@@ -2,3 +2,4 @@
   kanske source_me.sh är bra? som sourcar både globala och den man står i just nu?
   och kanske en bash_me.sh som lägger till ovanstående i bashrc
 - add "sudo apt install ros-foxy-turtlesim" to instructions or build process
+- add instructions: add /opt/ros/foxy/include to includePath for c++ compiler

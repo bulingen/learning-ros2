@@ -67,6 +67,8 @@ Get-Service ssh-agent
 - `ros2 run turtlesim turtlesim_node`
 - `ros2 run turtlesim turtle_teleop_key`
 - `ros2 run my_cpp_pkg cpp_node --ros-args -r __node:=new_name`
+- `ros2 topic list`
+- `ros2 topic echo /name_of_topic`
 
 ## Useful VS Code extensions
 
@@ -83,6 +85,10 @@ Get-Service ssh-agent
 - Nodes communicate with each other through topics, services and parameters
 - A main control loop as a node is probably a good thing
 - Two different nodes cannot have the same name
+- Publishers and receivers are nodes
+- A publisher will publish on a certain topic. A subscriber can subscribe to that topic.
+- There can be many publishers and many receivers on the same topic.
+- A node can contain many publishers/subscribers for many different topics.
 
 ## How to create a simple Python node
 
