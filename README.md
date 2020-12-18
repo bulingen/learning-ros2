@@ -62,6 +62,11 @@ Get-Service ssh-agent
 - `ros2 pkg create my_cpp_pkg --build-type ament_cmake --dependencies rclcpp`
 - `colcon build --packages-select my_py_pkg`
 - `colcon build --packages-select my_py_pkg --symlink-install` (Changes will be reflected without the need for recompilation. The Python file has to be executable. Does not work for CPP.)
+- `rqt`
+- `rqt_graph`
+- `ros2 run turtlesim turtlesim_node`
+- `ros2 run turtlesim turtle_teleop_key`
+- `ros2 run my_cpp_pkg cpp_node --ros-args -r __node:=new_name`
 
 ## Useful VS Code extensions
 
