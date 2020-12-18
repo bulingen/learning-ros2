@@ -37,6 +37,7 @@ ros2 run demo_nodes_cpp listener
 1. Install the extension "Remote - Containers"
 1. Press `Ctrl`+`Shift`+`P` and select "Remote-Containers: Rebuild and reopen in container"
 1. You should now be inside a working environment for ROS2. Open a terminal and do what you want.
+1. After your first `colcon build`, you should add `source ~/ros2_workspace/install/setup.bash` to your `.bashrc` file in the container.
 
 If you're using Windows, you might have to do a couple of things to get Git working inside your container. Try `git fetch` and see if you get an error. If that's the case, and you're using SSH keys as credentials, open a Powershell as Administrator and run
 
@@ -60,6 +61,7 @@ Get-Service ssh-agent
 - `ros2 pkg create my_py_pkg --build-type ament_python --dependencies rclpy`
 - `ros2 pkg create my_cpp_pkg --build-type ament_cmake --dependencies rclcpp`
 - `colcon build --packages-select my_py_pkg`
+- `colcon build --packages-select my_py_pkg --symlink-install` (Changes will be reflected without the need for recompilation. The Python file has to be executable. Does not work for CPP.)
 
 ## Useful VS Code extensions
 
