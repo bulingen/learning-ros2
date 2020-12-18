@@ -32,6 +32,27 @@ docker-compose exec dev bash
 ros2 run demo_nodes_cpp listener
 ```
 
+# Get started with using VS Code Remote-Container extension
+
+1. Install the extension "Remote - Containers"
+1. Press `Ctrl`+`Shift`+`P` and select "Remote-Containers: Rebuild and reopen in container"
+1. You should now be inside a working environment for ROS2. Open a terminal and do what you want.
+
+If you're using Windows, you might have to do a couple of things to get Git working inside your container. Try `git fetch` and see if you get an error. If that's the case, and you're using SSH keys as credentials, open a Powershell as Administrator and run
+
+```
+ssh-add $HOME/.ssh/id_rsa // <-- or whatever keys you are using
+```
+
+And if that doesn't work, then you might have to start the SSH Agent:
+
+```
+Set-Service ssh-agent -StartupType Automatic
+Start-Service ssh-agent
+Get-Service ssh-agent
+```
+
+
 ## Useful commands
 
 - `ros2 run demo_nodes_cpp talker`
@@ -44,7 +65,7 @@ ros2 run demo_nodes_cpp listener
 
 - C/C++
 - CMake
-- CMake Tools
+- CMake Tools - (not sure about this one)
 - Jupyter
 - Python
 
