@@ -76,6 +76,7 @@ Get-Service ssh-agent
 - `ros2 interface show example_interfaces/msg/String`
 - `ros2 node list`
 - `ros2 node info /name_of_node`
+- `ros2 run my_cpp_pkg cpp_node --ros-args -r __node:=new_name -r topic_name:=new_name_of_topic`
 
 ## Useful VS Code extensions
 
