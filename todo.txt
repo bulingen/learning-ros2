@@ -4,3 +4,4 @@
 - add "sudo apt install ros-foxy-turtlesim" to instructions or build process
 - add instructions: add /opt/ros/foxy/include to includePath for c++ compiler
 - add instructions: add an entrypoint to a package
+- add instructions: how to remap node (rename)
