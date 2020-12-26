@@ -80,6 +80,9 @@ Get-Service ssh-agent
 - `ros2 interface show example_interfaces/srv/AddTwoInts` (Will show service definition: request and response types separated by three dashes.)
 - `ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 3, b: 4}"` (Call a service from CLI).
 - `ros2 service list`
+- `rqt` --> select in menu "Plugins" --> "Services" --> "Service Caller". Great for testing service calls when the interface is complex.
+- `ros2 run my_py_pkg add_two_ints_server --ros-args -r add_two_ints:=new_name` (Remap a service with a different name.)
+- `ros2 run my_py_pkg add_two_ints_client --ros-args -r add_two_ints:=new_name` (Remap the client as well, to make use of the server.)
 
 ## Useful VS Code extensions
 
