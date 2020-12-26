@@ -77,6 +77,8 @@ Get-Service ssh-agent
 - `ros2 node list`
 - `ros2 node info /name_of_node`
 - `ros2 run my_cpp_pkg cpp_node --ros-args -r __node:=new_name -r topic_name:=new_name_of_topic`
+- `ros2 interface show example_interfaces/srv/AddTwoInts` (Will show service definition: request and response types separated by three dashes.)
+- `ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 3, b: 4}"` (Call a service from CLI).
 
 ## Useful VS Code extensions
 
@@ -97,6 +99,12 @@ Get-Service ssh-agent
 - A publisher will publish on a certain topic. A subscriber can subscribe to that topic.
 - There can be many publishers and many receivers on the same topic.
 - A node can contain many publishers/subscribers for many different topics.
+- While topics are a way for unidirectional communication between nodes, services are a client/server setup, where clients request something from the server.
+- In that case, the service is the "interface" between the client and the server.
+- The client will do a request and receive a response. 
+- A service can be either synchronous or asynchronous.
+- A service is defined by its name and the message types of the requests and responses.
+- A service server can exist only once, but can have many clients.
 
 ## How to create a simple Python node
 
