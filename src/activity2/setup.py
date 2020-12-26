@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'number_publisher = activity2.number_publisher:main'
         ],
     },
 )
