@@ -30,4 +30,12 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+add_executable(number_counter src/number_counter.cpp)
+ament_target_dependencies(number_counter rclcpp)
+
+install(TARGETS
+  number_counter
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()
