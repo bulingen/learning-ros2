@@ -79,6 +79,7 @@ Get-Service ssh-agent
 - `ros2 run my_cpp_pkg cpp_node --ros-args -r __node:=new_name -r topic_name:=new_name_of_topic`
 - `ros2 interface show example_interfaces/srv/AddTwoInts` (Will show service definition: request and response types separated by three dashes.)
 - `ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 3, b: 4}"` (Call a service from CLI).
+- `ros2 service list`
 
 ## Useful VS Code extensions
 
