@@ -18,6 +18,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(example_interfaces REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -31,7 +32,7 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(number_counter src/number_counter.cpp)
-ament_target_dependencies(number_counter rclcpp)
+ament_target_dependencies(number_counter rclcpp example_interfaces)
 
 install(TARGETS
   number_counter
