@@ -6,6 +6,7 @@ class NumberCounterNode : public rclcpp::Node
 public:
   NumberCounterNode() : Node("number_counter"), counter_(0)
   {
+      publisher_ = this->create_publisher<example_interfaces::msg::Int64>("number_count", 10);
       subscriber_ = this->create_subscription<example_interfaces::msg::Int64>(
           "number",
           10,
@@ -20,8 +21,12 @@ private:
         int received_number = msg->data;
         RCLCPP_INFO(this->get_logger(), "counter: %d, received: %d", counter_, received_number);
         counter_ ++;
+        auto newMessage = example_interfaces::msg::Int64();
+        newMessage.data = counter_;
+        publisher_->publish(newMessage);
     }
     rclcpp::Subscription<example_interfaces::msg::Int64>::SharedPtr subscriber_;
+    rclcpp::Publisher<example_interfaces::msg::Int64>::SharedPtr publisher_;
     int counter_;
 };
 
