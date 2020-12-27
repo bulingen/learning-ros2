@@ -109,6 +109,7 @@ Get-Service ssh-agent
 - A service can be either synchronous or asynchronous.
 - A service is defined by its name and the message types of the requests and responses.
 - A service server can exist only once, but can have many clients.
+- "Am I just sending some data, or do I expect a response after I send the message?”. This will tell you if you need to use a Topic or a Service
 
 ## How to create a simple Python node
 
