@@ -244,3 +244,24 @@ Verify that it's there:
 source ~/.bashrc
 ros2 interface show my_interfaces/msg/SomeStatus
 ```
+
+## How to make VS Code accept your local imports
+
+1. Open User settings
+1. Search for "python path"
+1. Click "Edit in settings.json" under "Auto complete: extra paths"
+1. Add to the array `python.autoComplete.extraPaths` for example:
+  ```
+  "~/learning-ros2/install/my_robot_interfaces/lib/python3.8/site-packages/my_robot_interfaces"
+  ```
+
+## How to use your custom message in a python node
+
+1. Create a python node
+1. Import message: `from my_robot_interfaces.msg import HardwareStatus`
+1. (Fix your VS Code python imports as described above)
+1. Add to `package.xml`:
+  ```
+  <depend>my_robot_interfaces</depend>
+  ```
+1. You can now use the message as any other message.
