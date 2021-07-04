@@ -11,6 +11,10 @@ class NumberCounterNode : public rclcpp::Node
 public:
   NumberCounterNode() : Node("number_counter"), counter_(0)
   {
+      this->declare_parameter("useless_number", 10);
+
+      int useless_number = this->get_parameter("useless_number").as_int();
+
       publisher_ = this->create_publisher<example_interfaces::msg::Int64>("number_count", 10);
       subscriber_ = this->create_subscription<example_interfaces::msg::Int64>(
           "number",
@@ -21,7 +25,7 @@ public:
           "reset_counter",
           std::bind(&NumberCounterNode::handleResetCounterRequest, this, _1, _2)
       );
-      RCLCPP_INFO(this->get_logger(), "Number counter has been initialized");
+      RCLCPP_INFO(this->get_logger(), "Number counter has been initialized with useless_number=" + std::to_string(useless_number));
   }
 
 private:
