@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'battery = activity4.battery:main'
+            'battery = activity4.battery:main',
+            'led_panel = activity4.led_panel:main'
         ],
     },
 )
