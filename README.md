@@ -330,3 +330,7 @@ ros2 param get /the_node the_param
   <depend>my_robot_interfaces</depend>
   ```
 1. You can now use the message as any other message.
+
+## Turtlesim project notes
+
+`ros2 run turtlesim_project turtle_spawner`
