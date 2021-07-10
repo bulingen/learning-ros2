@@ -5,6 +5,8 @@ import rclpy
 from rclpy.node import Node
 from functools import partial
 from turtlesim.srv import Spawn
+from turtlesim_project_interfaces.msg import Turtle, TurtleArray
+
 
 X_BOUNDS = {
     'min': 0.0,
@@ -44,6 +46,8 @@ class TurtleSpawner(Node):
     def __init__(self):
         super().__init__("turtle_spawner")
         self.spawn_timer = self.create_timer(2.0, self.spawn)
+        self.alive_turtles = []
+        self.publisher = self.create_publisher(TurtleArray, 'alive_turtles', 10)
         self.get_logger().info("turtle_spawner started")
 
     def spawn(self):
@@ -67,10 +71,33 @@ class TurtleSpawner(Node):
     def handle_server_response(self, future, x, y, theta):
         try:
             response = future.result()
-            self.get_logger().info('spawned {}'.format(str(response.name)))
+            self.add_turtle(x, y, theta, response.name)
 
         except Exception as e:
             self.get_logger().error("Service call failed %r" % (e,))
+
+    def add_turtle(self, x, y, theta, name):
+        self.alive_turtles.append({
+            'x': x,
+            'y': y,
+            'theta': theta,
+            'name': name,
+        })
+        self.publish_turtles()
+
+    def publish_turtles(self):
+        msg = TurtleArray()
+        turtles = []
+        for turtle in self.alive_turtles:
+            t = Turtle()
+            t.x = turtle['x']
+            t.y = turtle['y']
+            t.theta = turtle['theta']
+            t.name = turtle['name']
+            turtles.append(t)
+
+        msg.turtles = turtles
+        self.publisher.publish(msg)
 
 
 def main(args=None):
