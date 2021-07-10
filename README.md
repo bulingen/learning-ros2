@@ -333,4 +333,13 @@ ros2 param get /the_node the_param
 
 ## Turtlesim project notes
 
+`colcon build --packages-select turtlesim_project`
 `ros2 run turtlesim_project turtle_spawner`
+`ros2 service type /spawn`
+`ros2 interface show turtlesim/srv/Spawn`
+`ros2 service call /spawn turtlesim/srv/Spawn "{x: 1.0, y: 1.0, theta: 45.0, name: 'a_name'}"`
+
+bounds
+x: 0.0 - 11.0
+y: 0.0 - 11.0
+theta: 0.0 - 2*PI
