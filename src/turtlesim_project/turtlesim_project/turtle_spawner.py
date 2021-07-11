@@ -13,9 +13,12 @@ X_BOUNDS = {
     'max': 11.0,
 }
 
+# 0.0 is pointing to the right
+# negative is turning right
+# positive is turning left
 THETA_BOUNDS = {
-    'min': 0.0,
-    'max': 2 * math.pi,
+    'min': -math.pi,
+    'max': math.pi,
 }
 
 

@@ -346,3 +346,44 @@ theta: 0.0 - 2*PI
 
 `colcon build --packages-select turtlesim_project_interfaces`
 `ros2 run turtlesim_project turtle_controller`
+
+`ros2 topic echo /turtle1/cmd_vel`
+`ros2 topic info /turtle1/cmd_vel`
+Type: geometry_msgs/msg/Twist
+
+`ros2 topic echo /turtle1/pose`
+`ros2 topic info /turtle1/pose`
+Type: turtlesim/msg/Pose
+
+`ros2 interface show geometry_msgs/msg/Twist`
+# This expresses velocity in free space broken into its linear and angular parts.
+
+Vector3  linear
+Vector3  angular
+
+`ros2 interface show geometry_msgs/msg/Vector3`
+# This represents a vector in free space.
+
+# This is semantically different than a point.
+# A vector is always anchored at the origin.
+# When a transform is applied to a vector, only the rotational component is applied.
+
+float64 x
+float64 y
+float64 z
+
+`ros2 interface show turtlesim/msg/Pose`
+float32 x
+float32 y
+float32 theta
+
+float32 linear_velocity
+float32 angular_velocity
+
+
+`ros2 service call /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 4.0, y: 4.0}}"`
+
+`ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.0, y: 0.0}, angular: {z: 1.0}}" --once`
+
+`ros2 run rqt_plot rqt_plot`
+Topic: /turtle1/pose/theta

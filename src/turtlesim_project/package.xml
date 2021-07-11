@@ -9,6 +9,7 @@
 
   <depend>rclpy</depend>
   <depend>turtlesim</depend>
+  <depend>geometry_msgs</depend>
   <depend>turtlesim_project_interfaces</depend>
 
 
