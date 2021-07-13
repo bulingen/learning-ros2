@@ -6,7 +6,13 @@ from rclpy.node import Node
 from functools import partial
 from turtlesim.srv import Spawn
 from turtlesim_project_interfaces.msg import Turtle, TurtleArray
+from turtlesim_project_interfaces.srv import CatchTurtle
 
+
+ALIVE_TURTLES_TOPIC = 'alive_turtles'
+CATCH_TURTLE_SERVICE = 'catch_turtle'
+
+SPAWN_PERIOD_IN_SEC = 5.0
 
 X_BOUNDS = {
     'min': 0.0,
@@ -48,10 +54,20 @@ def get_random_position():
 class TurtleSpawner(Node):
     def __init__(self):
         super().__init__("turtle_spawner")
-        self.spawn_timer = self.create_timer(2.0, self.spawn)
+        self.spawn_timer = self.create_timer(SPAWN_PERIOD_IN_SEC, self.spawn)
         self.alive_turtles = []
-        self.publisher = self.create_publisher(TurtleArray, 'alive_turtles', 10)
+        self.publisher = self.create_publisher(TurtleArray, ALIVE_TURTLES_TOPIC, 10)
+        self.server = self.create_service(
+            CatchTurtle,
+            CATCH_TURTLE_SERVICE,
+            self.handle_catch_turtle,
+        )
         self.get_logger().info("turtle_spawner started")
+
+    def handle_catch_turtle(self, request, response):
+        self.alive_turtles = list(filter(lambda t: t['name'] != request.turtle_name, self.alive_turtles))
+        response.success = True
+        return response
 
     def spawn(self):
         client = self.create_client(Spawn, 'spawn')
