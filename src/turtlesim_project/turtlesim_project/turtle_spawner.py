@@ -4,13 +4,14 @@ import random
 import rclpy
 from rclpy.node import Node
 from functools import partial
-from turtlesim.srv import Spawn
+from turtlesim.srv import Spawn, Kill
 from turtlesim_project_interfaces.msg import Turtle, TurtleArray
 from turtlesim_project_interfaces.srv import CatchTurtle
 
 
 ALIVE_TURTLES_TOPIC = 'alive_turtles'
 CATCH_TURTLE_SERVICE = 'catch_turtle'
+KILL_TURTLE_SERVICE = 'kill'
 
 SPAWN_PERIOD_IN_SEC = 5.0
 
@@ -62,12 +63,35 @@ class TurtleSpawner(Node):
             CATCH_TURTLE_SERVICE,
             self.handle_catch_turtle,
         )
+        self.kill_client = None
         self.get_logger().info("turtle_spawner started")
 
     def handle_catch_turtle(self, request, response):
-        self.alive_turtles = list(filter(lambda t: t['name'] != request.turtle_name, self.alive_turtles))
+        if not self.kill_client:
+            self.kill_client = self.create_client(Kill, KILL_TURTLE_SERVICE)
+
+        while not self.kill_client.wait_for_service(1.0):
+            self.get_logger().warn("Waiting for server {}".format(KILL_TURTLE_SERVICE))
+
+        kill_request = Kill.Request()
+        kill_request.name = request.turtle_name
+
+        future = self.kill_client.call_async(kill_request)
+
+        future.add_done_callback(
+            partial(self.handle_kill_turtle_response, name=request.turtle_name)
+        )
         response.success = True
+
         return response
+
+    def handle_kill_turtle_response(self, future, name):
+        try:
+            future.result()
+            self.alive_turtles = list(filter(lambda t: t['name'] != name, self.alive_turtles))
+            self.publish_turtles()
+        except Exception as e:
+            self.get_logger().error("Service call failed %r" % (e,))
 
     def spawn(self):
         client = self.create_client(Spawn, 'spawn')

@@ -75,7 +75,6 @@ class TurtleController(Node):
         self.last_time_command_sent = self.get_current_time_in_seconds()
         self.current_position = None
         self.target_turtle = None
-        self.target_turtles = []
 
         self.get_logger().info("turtle_controller started")
 
@@ -89,33 +88,15 @@ class TurtleController(Node):
         request = CatchTurtle.Request()
         request.turtle_name = name
 
-        future = self.catch_turtle_client.call_async(request)
-
-        future.add_done_callback(
-            partial(self.handle_catch_turtle_response, name=name)
-        )
-
-    def handle_catch_turtle_response(self, future, name):
-        try:
-            response = future.result()
-            if response.success:
-                self.target_turtles = list(filter(lambda t: t.name != name, self.target_turtles))
-                if len(self.target_turtles) > 0:
-                    self.target_turtle = self.target_turtles[0]
-            else:
-                self.get_logger().warn("catch turtle response was unsuccessful, turtle: {}".format(name))
-
-        except Exception as e:
-            self.get_logger().error("Service call failed %r" % (e,))
+        self.catch_turtle_client.call_async(request)
 
     def get_current_time_in_seconds(self):
         secs, nsecs = self.get_clock().now().seconds_nanoseconds()
         return secs + nsecs / 1000000000.0
 
     def handle_turtles_update(self, msg):
-        self.target_turtles = msg.turtles
-        if len(self.target_turtles) > 0 and not self.target_turtle:
-            self.target_turtle = self.target_turtles[0]
+        if len(msg.turtles) > 0 and not self.target_turtle:
+            self.target_turtle = msg.turtles[0]
             
     def get_driving_instructions(self):
         linear_velocity = 0.0
@@ -139,6 +120,7 @@ class TurtleController(Node):
                 # Maybe have helper functions for stop(), go_to_target() etc.
                 self.publish_command(0.0, 0.0)
                 self.catch_turtle(self.target_turtle.name)
+                self.target_turtle = None
             return linear_velocity, angle_velocity
 
         linear_velocity = 2.0
