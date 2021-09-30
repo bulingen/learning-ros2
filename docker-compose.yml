@@ -19,3 +19,12 @@ services:
       - /ros2_ws/build/
       - /ros2_ws/install/
       - /ros2_ws/log/
+  gui:
+    build:
+      context: ./gui
+      dockerfile: Dockerfile
+    # volumes:
+    #   - .:/ros2_ws
+    #   - /ros2_ws/build/
+    #   - /ros2_ws/install/
+    #   - /ros2_ws/log/
