@@ -333,6 +333,36 @@ ros2 param get /the_node the_param
 
 ## Turtlesim project notes
 
+### Get started
+
+Get source code and build:
+
+```
+git clone <this repo>
+cd path/to/repo
+colcon build --packages-select turtlesim_project turtlesim_project_interfaces
+source source_me.sh
+```
+
+Run nodes:
+
+(terminal 1)
+```
+ros2 run turtlesim turtlesim_node
+```
+
+(terminal 2)
+```
+ros2 run turtlesim_project turtle_controller
+```
+
+(terminal 3)
+```
+ros2 run turtlesim_project turtle_spawner
+```
+
+### More turtlesim project notes
+
 `colcon build --packages-select turtlesim_project`
 `ros2 run turtlesim_project turtle_spawner`
 `ros2 service type /spawn`
@@ -356,17 +386,17 @@ Type: geometry_msgs/msg/Twist
 Type: turtlesim/msg/Pose
 
 `ros2 interface show geometry_msgs/msg/Twist`
-# This expresses velocity in free space broken into its linear and angular parts.
+This expresses velocity in free space broken into its linear and angular parts.
 
 Vector3  linear
 Vector3  angular
 
 `ros2 interface show geometry_msgs/msg/Vector3`
-# This represents a vector in free space.
+This represents a vector in free space.
 
-# This is semantically different than a point.
-# A vector is always anchored at the origin.
-# When a transform is applied to a vector, only the rotational component is applied.
+This is semantically different than a point.
+A vector is always anchored at the origin.
+When a transform is applied to a vector, only the rotational component is applied.
 
 float64 x
 float64 y
