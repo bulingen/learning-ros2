@@ -55,7 +55,11 @@ def get_random_position():
 class TurtleSpawner(Node):
     def __init__(self):
         super().__init__("turtle_spawner")
-        self.spawn_timer = self.create_timer(SPAWN_PERIOD_IN_SEC, self.spawn)
+
+        self.declare_parameter("spawn_frequency", 1 / SPAWN_PERIOD_IN_SEC)
+        self.spawn_frequency = self.get_parameter("spawn_frequency").value
+
+        self.spawn_timer = self.create_timer(1 / self.spawn_frequency, self.spawn)
         self.alive_turtles = []
         self.publisher = self.create_publisher(TurtleArray, ALIVE_TURTLES_TOPIC, 10)
         self.server = self.create_service(
