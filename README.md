@@ -417,3 +417,7 @@ float32 angular_velocity
 
 `ros2 run rqt_plot rqt_plot`
 Topic: /turtle1/pose/theta
+
+## Troubleshoot
+
+- `ModuleNotFoundError` - Have you sourced your shell? Remember to run `source source_me.sh` everytime you open a new shell.
