@@ -14,6 +14,9 @@ def generate_launch_description():
         package="turtlesim_project",
         executable="turtle_controller",
         name="controller",
+        parameters=[
+            {"catch_closest_turtle_first": True},
+        ]
     )
     
     spawner_node = Node(
@@ -21,7 +24,7 @@ def generate_launch_description():
         executable="turtle_spawner",
         name="spawner",
         parameters=[
-            {"spawn_frequency": 0.2}
+            {"spawn_frequency": 0.5}
         ]
     )
 

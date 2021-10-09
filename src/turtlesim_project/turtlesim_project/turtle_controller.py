@@ -28,10 +28,9 @@ GOAL = GOAL_BOTTOM_RIGHT
 # 1 sec / 2 = 0.5
 COMMAND_PERIOD = 0.1
 
-# TODO: maybe increase this, to handle problems with not reaching target
-# when target gets spawned very close
-# angle_vel * 2
-ANGLE_VELOCITY_COEFFICIENT = 2
+# a lower value (e. g. 2) can make turtle cicle around target,
+# since it cannot turn fast enough to catch it.
+ANGLE_VELOCITY_COEFFICIENT = 4
 
 # a full lap is 2 * PI
 ANGLE_TOLERANCE = 0.1
@@ -76,6 +75,9 @@ class TurtleController(Node):
         self.current_position = None
         self.target_turtle = None
 
+        self.declare_parameter("catch_closest_turtle_first", True)
+        self.catch_closest_turtle_first = self.get_parameter("catch_closest_turtle_first").value
+
         self.get_logger().info("turtle_controller started")
 
     def catch_turtle(self, name):
@@ -97,6 +99,23 @@ class TurtleController(Node):
     def handle_turtles_update(self, msg):
         if len(msg.turtles) > 0 and not self.target_turtle:
             self.target_turtle = msg.turtles[0]
+            if self.catch_closest_turtle_first and len(msg.turtles) > 1:
+                closest_distance = calculate_distance(
+                    self.target_turtle.x,
+                    self.target_turtle.y,
+                    self.current_position.x,
+                    self.current_position.y
+                )
+                for turtle in msg.turtles[1:]:
+                    distance_to_turtle = calculate_distance(
+                        turtle.x,
+                        turtle.y,
+                        self.current_position.x,
+                        self.current_position.y
+                    )
+                    if distance_to_turtle < closest_distance:
+                        self.target_turtle = turtle
+                        closest_distance = distance_to_turtle
             
     def get_driving_instructions(self):
         linear_velocity = 0.0
