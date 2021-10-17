@@ -437,3 +437,4 @@ Topic: /turtle1/pose/theta
 - Add your user to the `gpio` group using either `user.py` or `user2.py`, can't remember.
 - Restart the Raspberry Pi.
 - Try out the servo like this: `ros2 run rpi_test servo_node`.
+- Is this a better option? `sudo pip3 install gpiozero`
