@@ -438,3 +438,35 @@ Topic: /turtle1/pose/theta
 - Restart the Raspberry Pi.
 - Try out the servo like this: `ros2 run rpi_test servo_node`.
 - Is this a better option? `sudo pip3 install gpiozero`
+
+`git clone https://github.com/adafruit/Adafruit_CircuitPython_BNO055.git`
+`cd /path/to/cloned-repo`
+`sudo python3 setup.py install`
+
+Check that you have permission to run I2C stuff.
+
+`python3`
+
+python```
+>>> import adafruit_bno055
+>>> import board
+>>> i2c = board.I2C()
+```
+
+This will probably give you a permission error. Do this to resolve:
+
+
+Do this?
+
+```
+sudo apt update 
+sudo apt upgrade -y
+sudo apt install -y i2c-tools python3-pip
+```
+
+Not sure if we need this though?
+`sudo pip3 install smbus2`
+
+`sudo usermod -a -G i2c ubuntu // if ubuntu is your user`
+
+Should `adafruit_bno055` be listed in package dependencies?

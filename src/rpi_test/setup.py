@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'servo_node = rpi_test.servo:main',
-            'servo2 = rpi_test.servo2:main'
+            'servo2 = rpi_test.servo2:main',
+            'imu = rpi_test.imu:main'
         ],
     },
 )
