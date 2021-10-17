@@ -470,3 +470,15 @@ Not sure if we need this though?
 `sudo usermod -a -G i2c ubuntu // if ubuntu is your user`
 
 Should `adafruit_bno055` be listed in package dependencies?
+
+---
+NEO 6M module:
+
+```
+import serial
+ser = serial.Serial("/dev/ttsy0")
+print(ser.readline())
+```
+
+This will probably not work, since another service is using the same port. Follow steps here to solve:
+https://askubuntu.com/a/1338744
