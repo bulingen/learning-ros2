@@ -421,3 +421,19 @@ Topic: /turtle1/pose/theta
 ## Troubleshoot
 
 - `ModuleNotFoundError` - Have you sourced your shell? Remember to run `source source_me.sh` everytime you open a new shell.
+
+
+## Some notes on working with hardware on a Raspberry Pi
+
+- Haven't figured out a nice way of working with dependencies so far. There are three ways of installing stuff:
+  - using `rosdep`
+  - using `apt-get` or similar
+  - using `pip install`
+- Check out these links on installing stuff:
+  - http://docs.ros.org/en/galactic/How-To-Guides/Using-Python-Packages.html?highlight=rosdep
+  - https://github.com/ros/rosdistro/blob/master/rosdep/base.yaml
+  - https://github.com/ros/rosdistro/blob/master/rosdep/python.yaml
+- For now, install GPIO Python lib like this: `sudo apt-get -y install python3-rpi.gpio`
+- Add your user to the `gpio` group using either `user.py` or `user2.py`, can't remember.
+- Restart the Raspberry Pi.
+- Try out the servo like this: `ros2 run rpi_test servo_node`.
