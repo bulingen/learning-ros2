@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 import serial
+import pynmea2
 from rclpy.node import Node
 from example_interfaces.msg import String
 
@@ -10,7 +11,7 @@ class GnssNode(Node):
         super().__init__("gnss")
         self.publisher = self.create_publisher(String, "gnss_status", 10)
         self.timer_ = self.create_timer(1.0, self.publish)
-        self.serial_source = serial.Serial("/dev/ttyS0")
+        self.serial_source = serial.Serial("/dev/ttyS0", 9600, timeout=2)
         self.get_logger().info("GNSS status publisher has been started.")
 
     def publish(self):
@@ -20,7 +21,14 @@ class GnssNode(Node):
         # msg.data = "" + val
         # self.publisher.publish(msg)
 
-        print(self.serial_source.readline())
+        line = self.serial_source.readline()
+        decoded = line.decode('utf-8')
+
+        if "GGA" in decoded:
+            parsed = pynmea2.parse(decoded)
+            print(repr(parsed))
+
+        # print(decoded)
 
 
 def main(args=None):

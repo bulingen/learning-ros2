@@ -482,3 +482,6 @@ print(ser.readline())
 
 This will probably not work, since another service is using the same port. Follow steps here to solve:
 https://askubuntu.com/a/1338744
+
+
+`pip install pynmea2`
