@@ -5,6 +5,9 @@ import pynmea2
 from rclpy.node import Node
 from example_interfaces.msg import String
 
+import time
+import datetime
+
 
 class GnssNode(Node):
     def __init__(self):
@@ -26,7 +29,10 @@ class GnssNode(Node):
 
         if "GGA" in decoded:
             parsed = pynmea2.parse(decoded)
-            print(repr(parsed))
+            # print(repr(parsed))
+            # time.localtime(
+            print(parsed.latitude, parsed.longitude, parsed.timestamp, type(parsed.timestamp), dir(parsed.timestamp), parsed.timestamp.tzinfo, parsed.timestamp.tzname(), parsed.timestamp.utcoffset())
+
 
         # print(decoded)
 
