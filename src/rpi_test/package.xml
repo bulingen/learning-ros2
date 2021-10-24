@@ -9,6 +9,7 @@
 
   <depend>rclpy</depend>
   <depend>python-rpi.gpio</depend>
+  <depend>python-gpiozero</depend>
   <depend>example_interfaces</depend>
 
   <test_depend>ament_copyright</test_depend>
