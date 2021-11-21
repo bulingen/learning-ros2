@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 import RPi.GPIO as GPIO
 import time
+import serial
 
 
 # servoPIN = 17
@@ -30,25 +31,50 @@ class ServoNode(Node):
         GPIO.setup(servoPIN, GPIO.OUT)
 
         p = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
-        p.start(2.5) # Initialization
+        p.start(7.5) # Initialization, center
+        # try:
+        #     while True:
+        #         p.ChangeDutyCycle(5)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(7.5)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(10)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(12.5)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(10)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(7.5)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(5)
+        #         time.sleep(0.5)
+        #         p.ChangeDutyCycle(2.5)
+        #         time.sleep(0.5)
+
+        # pulse width = 1ms - 2ms (normally for servos)
+        # pulse width = 0.75ms - 2.25ms (for our steering servo)
+        # freq = 50 hz (for all servos)
+        # dutycycle = pulse width * freq (convert to seconds!)
+        # range for our steering servo
+        # 3.75 - 11.25 (7.5 is center)
         try:
             while True:
-                p.ChangeDutyCycle(5)
-                time.sleep(0.5)
+                p.ChangeDutyCycle(3.75)
+                time.sleep(1)
                 p.ChangeDutyCycle(7.5)
-                time.sleep(0.5)
-                p.ChangeDutyCycle(10)
-                time.sleep(0.5)
-                p.ChangeDutyCycle(12.5)
-                time.sleep(0.5)
-                p.ChangeDutyCycle(10)
-                time.sleep(0.5)
+                time.sleep(1)
+                p.ChangeDutyCycle(11.25)
+                time.sleep(1)
                 p.ChangeDutyCycle(7.5)
-                time.sleep(0.5)
-                p.ChangeDutyCycle(5)
-                time.sleep(0.5)
-                p.ChangeDutyCycle(2.5)
-                time.sleep(0.5)
+                time.sleep(1)
+                p.ChangeDutyCycle(3.75)
+                time.sleep(1)
+                p.ChangeDutyCycle(7.5)
+                time.sleep(1)
+                p.ChangeDutyCycle(11.25)
+                time.sleep(1)
+                p.ChangeDutyCycle(7.5)
+                time.sleep(1)
         except KeyboardInterrupt:
             p.stop()
             GPIO.cleanup()
