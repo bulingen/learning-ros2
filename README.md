@@ -539,3 +539,15 @@ colcon build --packages-select rpi_test
 source source_me.sh
 ros2 run rpi_test gnss
 ```
+
+### More servo notes
+
+`sudo apt install pigpio` not working
+
+https://abyz.me.uk/rpi/pigpio/download.html
+Follow the "download and install" instructions.
+
+sudo pigpiod
+sudo killall pigpiod
+
+sudo apt install python3-gpiozero python3-pigpio

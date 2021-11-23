@@ -23,7 +23,8 @@ setup(
             'servo_node = rpi_test.servo:main',
             'servo2 = rpi_test.servo2:main',
             'imu = rpi_test.imu:main',
-            'gnss = rpi_test.gnss:main'
+            'gnss = rpi_test.gnss:main',
+            'motor = rpi_test.motor:main'
         ],
     },
 )
