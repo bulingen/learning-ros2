@@ -540,14 +540,14 @@ source source_me.sh
 ros2 run rpi_test gnss
 ```
 
-### More servo notes
+### Run Ålen with SN30 controller over HC12 radio
 
-`sudo apt install pigpio` not working
+Follow these steps on Ålen Raspberry Pi:
 
-https://abyz.me.uk/rpi/pigpio/download.html
-Follow the "download and install" instructions.
+1. Install pigpio if you haven't already. Follow the "download and install" instructions here: https://abyz.me.uk/rpi/pigpio/download.html. `sudo apt install pigpio` is not working for some reason.
+1. Start pigpio like this: `sudo pigpiod`. (Stop by running `sudo killall pigpiod`)
+1. Install these if you haven't already: `sudo apt install python3-gpiozero python3-pigpio`.
+1. Make sure the motor, servo and hc12 are connected to RPi.
+1. Start python script to initialize motor, servo and hc12 connection: `python3 servo_no_jitter.py`
 
-sudo pigpiod
-sudo killall pigpiod
-
-sudo apt install python3-gpiozero python3-pigpio
+On your laptop, follow instructions in the other repo: https://github.com/bulingen/ard-serial
