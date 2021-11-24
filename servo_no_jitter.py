@@ -76,7 +76,107 @@ print('welcome')
 # stäng av motor och återgå till center
 # ifall kontrollen lägger av mitt i ett kommando
 
+# ska timeout vara 0 eller None?
+# "wait indefinetely", blockar det för writes?
+# isåfall, kan man köra olika trådar för det?
+
+
+
+# === this works ===
+
+# ser = serial.Serial('/dev/ttyS0', baudrate=9600)
+
+# while True:
+#     line = ser.readline()
+#     if line:
+#         string = line.decode('utf-8')
+#         motor_stuff = find_string(string, 'M: ')
+#         if motor_stuff:
+#             try:
+#                 number = float(motor_stuff)
+#                 if number >= -1 and number <= 1:
+#                     if number == 0:
+#                         stop_pwm()
+#                     elif number > 0:
+#                         forward(speed=number*100)
+#                     elif number < 0:
+#                         backward(speed=abs(number)*100)
+
+#             except ValueError as err:
+#                 print('found shit', err)
+        
+        
+#         rudder_stuff = find_string(string, 'R: ')
+#         if rudder_stuff:
+#             try:
+#                 number = float(rudder_stuff)
+#                 if number >= -1 and number <= 1:
+#                     servo.value = number
+
+#             except ValueError:
+#                 print('found shit')
+
+#     time.sleep(0.01)
+
+
+
+# === experimental ===
+
+def current_time_millis():
+    return round(time.time() * 1000)
+
+command_timeout_millis = 1000
+has_been_reset = False
+last_command_received_at = current_time_millis()
+
+def reset_stuff():
+    stop_pwm()
+    servo.value = 0
+    global has_been_reset
+    has_been_reset = True
+
 ser = serial.Serial('/dev/ttyS0', baudrate=9600)
+
+def update_timestamp():
+    global last_command_received_at
+    last_command_received_at = current_time_millis()
+
+def been_a_while_since_last_command():
+    now = current_time_millis()
+    return now - last_command_received_at > command_timeout_millis
+
+def handle_motor_command(value):
+    try:
+        number = float(value)
+        if number >= -1 and number <= 1:
+            if number == 0:
+                stop_pwm()
+            elif number > 0:
+                forward(speed=number*100)
+            elif number < 0:
+                backward(speed=abs(number)*100)
+
+            update_timestamp()
+            global has_been_reset
+            has_been_reset = False
+
+    except ValueError as err:
+        print('unrecognized motor command', err)
+
+
+def handle_rudder_command(value):
+    try:
+        number = float(value)
+        if number >= -1 and number <= 1:
+            servo.value = number
+
+            update_timestamp()
+            global has_been_reset
+            has_been_reset = False
+
+    except ValueError as err:
+        print('unrecognized rudder command', err)
+
 
 while True:
     line = ser.readline()
@@ -84,39 +184,16 @@ while True:
         string = line.decode('utf-8')
         motor_stuff = find_string(string, 'M: ')
         if motor_stuff:
-            try:
-                number = float(motor_stuff)
-                if number >= -1 and number <= 1:
-                    if number == 0:
-                        stop_pwm()
-                    elif number > 0:
-                        forward(speed=number*100)
-                    elif number < 0:
-                        backward(speed=abs(number)*100)
-
-            except ValueError as err:
-                print('found shit', err)
-        
+            handle_motor_command(motor_stuff)        
         
         rudder_stuff = find_string(string, 'R: ')
         if rudder_stuff:
-            try:
-                number = float(rudder_stuff)
-                if number >= -1 and number <= 1:
-                    servo.value = number
+            handle_rudder_command(rudder_stuff)
 
-            except ValueError:
-                print('found shit')
-        # try:
-        #     number = float(string)
-        #     # print('received', number)
-        #     if number >= -1 and number <= 1:
-        #         servo.value = number
+    if not has_been_reset and been_a_while_since_last_command():
+        reset_stuff()
 
-        # except ValueError:
-        #     print('found shit')
+    
+    # is this needed?
     time.sleep(0.01)
-
-
-
 
