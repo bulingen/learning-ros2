@@ -78,6 +78,9 @@ class TurtleController(Node):
         self.declare_parameter("catch_closest_turtle_first", True)
         self.catch_closest_turtle_first = self.get_parameter("catch_closest_turtle_first").value
 
+        self.declare_parameter("use_variable_speed", False)
+        self.use_variable_speed = self.get_parameter("use_variable_speed").value
+
         self.get_logger().info("turtle_controller started")
 
     def catch_turtle(self, name):
@@ -121,8 +124,10 @@ class TurtleController(Node):
         linear_velocity = 0.0
         angle_velocity = 0.0
 
+        distance_to_target = 0.0
+
         if not self.target_turtle:
-            return linear_velocity, angle_velocity
+            return linear_velocity, angle_velocity, distance_to_target
 
         distance_to_target = calculate_distance(
             self.target_turtle.x,
@@ -140,7 +145,7 @@ class TurtleController(Node):
                 self.publish_command(0.0, 0.0)
                 self.catch_turtle(self.target_turtle.name)
                 self.target_turtle = None
-            return linear_velocity, angle_velocity
+            return linear_velocity, angle_velocity, distance_to_target
 
         linear_velocity = 2.0
         angle_to_target = calculate_angle(
@@ -154,16 +159,17 @@ class TurtleController(Node):
         if abs(turn_angle) <= ANGLE_TOLERANCE:
             angle_velocity = 0.0
 
-        return linear_velocity, angle_velocity
+        return linear_velocity, angle_velocity, distance_to_target
 
     def handle_status_update(self, msg):
         time_now = self.get_current_time_in_seconds()
         if time_now - self.last_time_command_sent > COMMAND_PERIOD:
-
             self.current_position = msg
-            linear_velocity, angle_velocity = self.get_driving_instructions()
+            linear_velocity, angle_velocity, distance_to_target = self.get_driving_instructions()
 
-            self.publish_command(linear_velocity, angle_velocity)
+            velocity = distance_to_target if self.use_variable_speed else linear_velocity
+
+            self.publish_command(velocity, angle_velocity)
             self.last_time_command_sent = time_now
 
     def publish_command(self, linear_velocity, angle_velocity):

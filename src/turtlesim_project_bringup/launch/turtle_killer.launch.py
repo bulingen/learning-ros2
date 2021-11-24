@@ -16,6 +16,7 @@ def generate_launch_description():
         name="controller",
         parameters=[
             {"catch_closest_turtle_first": True},
+            {"use_variable_speed": True},
         ]
     )
     
