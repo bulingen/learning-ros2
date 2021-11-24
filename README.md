@@ -147,7 +147,7 @@ Get-Service ssh-agent
    },
    ```
 1. Go to the root of your workspace: `cd /ros2_ws`
-1. Build your package: `colcon build --packages-select my_py_pkg`
+1. Build your package: `colcon build --packages-select my_py_pkg --symlink-install`
 1. Source again: `source ~/.bashrc`
 1. Run your node manually: `./install/my_py_pkg/lib/my_py_pkg/py_node`
 1. Run your node through ROS2 commands (source `~/.bashrc` again if necessary): `ros2 run my_py_pkg py_node`
