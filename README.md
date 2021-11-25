@@ -551,3 +551,18 @@ Follow these steps on Ålen Raspberry Pi:
 1. Start python script to initialize motor, servo and hc12 connection: `python3 servo_no_jitter.py`
 
 On your laptop, follow instructions in the other repo: https://github.com/bulingen/ard-serial
+
+
+## Python dependencies
+
+1. Install virtualenv if you haven't already: `sudo apt install python3-virtualenv`
+1. Make sure you have a Python virtual environment:
+    ```
+    cd /path/to/project
+    virtualenv -p python3 ./venv
+    ```
+1. Make sure colcon doesn't try to build this folder: `touch ./venv/COLCON_IGNORE`
+1. Source, which activates environment: `source source_me.sh`
+1. Install dependencies: `pip install -r requirements.txt`
+1. When adding a dependency, run `pip freeze` and paste that package and version in `requirements.txt` (e. g. `my-installed-package==1.2.3`)
+1. Run `deactivate` to deactivate Python env.

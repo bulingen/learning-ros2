@@ -8,3 +8,6 @@ log
 
 # python cache
 **/*/__pycache__
+
+# python venv
+venv
