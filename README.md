@@ -652,3 +652,9 @@ while not is_shutdown:
 
 print(f"END at {datetime.datetime.now()}")
 ```
+
+## Find out IP to RPi on Android hotspot
+
+1. Connect to the hotspot
+1. Run a terminal emulator on the Android device
+1. Run `ip neigh` to list connected IPs
