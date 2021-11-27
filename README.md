@@ -566,3 +566,89 @@ On your laptop, follow instructions in the other repo: https://github.com/buling
 1. Install dependencies: `pip install -r requirements.txt`
 1. When adding a dependency, run `pip freeze` and paste that package and version in `requirements.txt` (e. g. `my-installed-package==1.2.3`)
 1. Run `deactivate` to deactivate Python env.
+
+
+## Notes on how we made stuff run on startup
+
+Make `pigpiod` run on startup:
+
+1. `sudo touch /lib/systemd/system/pigpiod.service`
+1. Paste in the created file (with vim):
+    ```
+    [Unit]
+    Description=Daemon required to control GPIO pins via pigpio
+    [Service]
+    ExecStart=/usr/local/bin/pigpiod
+    ExecStop=/bin/systemctl kill -s SIGKILL pigpiod
+    Type=forking
+    [Install]
+    WantedBy=multi-user.target
+    ```
+1. `sudo systemctl enable pigpiod.service`
+1. `sudo systemctl start pigpiod.service`
+1. `sudo systemctl status pigpiod.service`
+
+Create files for the Ålen project, to be run on startup:
+
+1. `mkdir /home/ubuntu/logs/alen.log`
+1. `touch /home/ubuntu/scripts/alen.sh`
+1. Paste in the created file:
+    ```sh
+    #!/bin/bash
+
+    python3 /home/ubuntu/learning-ros2/servo_no_jitter.py >> /home/ubuntu/logs/alen.log 2>&1
+    ```
+1. `sudo chmod 744 /home/ubuntu/scripts/alen.sh`
+1. `touch /etc/systemd/system/alen.service`
+1. Paste in the created file:
+    ```sh
+    [Unit]
+    After=pigpiod.service
+    Description=Alen
+
+    [Service]
+    Type=simple
+    # WorkingDirectory=/code/python/myapp
+    ExecStart=/home/ubuntu/scripts/alen.sh
+    # User=do-user
+
+    [Install]
+    WantedBy=multi-user.target
+    # WantedBy=default.target
+    ```
+1. `sudo chmod 664 /etc/systemd/system/alen.service`
+1. `sudo systemctl daemon-reload`
+1. `sudo systemctl enable alen.service`
+1. `sudo systemctl start alen.service`
+1. `sudo systemctl status alen.service` (Optional)
+1. `tail -f /home/ubuntu/logs/alen.log` (Optional)
+1. `sudo shutdown -h now` (Optional)
+
+We should probably implement some stuff from this snippet, to get proper logs and what-not:
+
+```python
+import signal
+import time
+import datetime
+
+is_shutdown = False
+
+def stop(sig, frame):
+  print(f"SIGTERM at {datetime.datetime.now()}")
+  global is_shutdown
+  is_shutdown = True
+
+def ignore(sig, frsma):
+  print(f"SIGHUP at {datetime.datetime.now()}")
+
+signal.signal(signal.SIGTERM, stop)
+signal.signal(signal.SIGHUP, ignore)
+
+print(f"START at {datetime.datetime.now()}")
+
+while not is_shutdown:
+  print('.', end='', flush=True)
+  time.sleep(1)
+
+print(f"END at {datetime.datetime.now()}")
+```
