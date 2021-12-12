@@ -86,37 +86,37 @@ print('welcome')
 
 ser = serial.Serial('/dev/ttyS0', baudrate=9600)
 
-# while True:
-#     line = ser.readline()
-#     if line:
-#         string = line.decode('utf-8')
-#         motor_stuff = find_string(string, 'M: ')
-#         if motor_stuff:
-#             try:
-#                 number = float(motor_stuff)
-#                 if number >= -1 and number <= 1:
-#                     if number == 0:
-#                         stop_pwm()
-#                     elif number > 0:
-#                         forward(speed=number*100)
-#                     elif number < 0:
-#                         backward(speed=abs(number)*100)
+while True:
+    line = ser.readline()
+    if line:
+        string = line.decode('utf-8')
+        motor_stuff = find_string(string, 'M: ')
+        if motor_stuff:
+            try:
+                number = float(motor_stuff)
+                if number >= -1 and number <= 1:
+                    if number == 0:
+                        stop_pwm()
+                    elif number > 0:
+                        forward(speed=number*100)
+                    elif number < 0:
+                        backward(speed=abs(number)*100)
 
-#             except ValueError as err:
-#                 print('found shit', err)
+            except ValueError as err:
+                print('found shit', err)
         
         
-#         rudder_stuff = find_string(string, 'R: ')
-#         if rudder_stuff:
-#             try:
-#                 number = float(rudder_stuff)
-#                 if number >= -1 and number <= 1:
-#                     servo.value = number
+        rudder_stuff = find_string(string, 'R: ')
+        if rudder_stuff:
+            try:
+                number = float(rudder_stuff)
+                if number >= -1 and number <= 1:
+                    servo.value = number
 
-#             except ValueError:
-#                 print('found shit')
+            except ValueError:
+                print('found shit')
 
-#     time.sleep(0.01)
+    time.sleep(0.01)
 
 
 # === experimental for service
