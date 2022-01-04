@@ -262,7 +262,7 @@ int my_value = this->get_parameter("some_name").as_int();
 Set the parameters during runtime:
 
 ```bash
-ros2 run my_pkg my_node --ros-args -p some_name=the_value
+ros2 run my_pkg my_node --ros-args -p some_name:=the_value
 ```
 
 The type of the value will be automatically interpreted by ROS2 - int, string, double and so on.
