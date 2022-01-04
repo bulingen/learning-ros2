@@ -14,7 +14,8 @@ class GnssNode(Node):
         super().__init__("gnss")
         self.publisher = self.create_publisher(String, "gnss_status", 10)
         self.timer_ = self.create_timer(1.0, self.publish)
-        self.serial_source = serial.Serial("/dev/ttyAMA0", 9600, timeout=2)
+        # self.serial_source = serial.Serial("/dev/ttyS0", 9600, timeout=2)
+        self.serial_source = serial.Serial("/dev/ttyUSB0", 9600, timeout=2)
         self.get_logger().info("GNSS status publisher has been started.")
 
     def publish(self):
@@ -26,13 +27,14 @@ class GnssNode(Node):
 
         line = self.serial_source.readline()
         
-        print(line)
+        #print(line)
         
         decoded = line.decode('utf-8')
 
 
 
-        if "GGA" in decoded:
+        # if "GGA" in decoded:
+        if "GPRMC" in decoded:
             parsed = pynmea2.parse(decoded)
             # print(repr(parsed))
             # time.localtime(
