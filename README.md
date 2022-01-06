@@ -310,6 +310,12 @@ ros2 param get /the_node the_param
 1. Add configuration on how to run your application in the launch file. See `src/my_robot_bringup/launch/number_app.launch.py` for reference.
 1. Add exec dependencies to the `package.xml`. See `src/my_robot_bringup/package.xml` for reference.
 
+Use arguments in launch files like this:
+- Show available args: `ros2 launch my_bringup robot.launch.py --show-args`
+- Pass args: `ros2 launch my_bringup robot.launch.py my_arg:=goodbye`
+- Declare in python code: `my_arg = actions.DeclareLaunchArgument("my_arg", default_value="hello")`. And: `ld.add_action(my_arg)`
+- Pass to node: `parameters=[{"my_node_arg": LaunchConfiguration("my_arg")}]`.
+
 ## How to make VS Code accept your local imports
 
 1. Open User settings
